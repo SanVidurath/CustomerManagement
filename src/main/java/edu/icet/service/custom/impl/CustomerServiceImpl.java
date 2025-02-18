@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,4 +45,37 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(Customer customer) {
         repository.save(mapper.map(customer, CustomerEntity.class));
     }
+
+    @Override
+    public Customer searchCustomerById(Integer id) {
+        return mapper.map(repository.findById(id), Customer.class);
+    }
+
+    @Override
+    public List<Customer> searchCustomerByName(String name) {
+        List<CustomerEntity> byName = repository.findByName(name);
+        List<Customer> customerList = new ArrayList<>();
+
+        byName.forEach(customerEntity -> customerList.add(mapper.map(customerEntity, Customer.class)));
+        return customerList;
+    }
+
+    @Override
+    public List<Customer> searchCustomerByAddress(String address) {
+        List<CustomerEntity> byAddress = repository.findByAddress(address);
+        ArrayList<Customer> customerList = new ArrayList<>();
+
+        byAddress.forEach(customerEntity -> customerList.add(mapper.map(customerEntity, Customer.class)));
+        return customerList;
+    }
+
+    @Override
+    public List<Customer> searchCustomerBySalary(Double salary) {
+        List<CustomerEntity> customerEntities = repository.searchBySalary(salary);
+        List<Customer> customerList = new ArrayList<>();
+        customerEntities.forEach(customerEntity -> customerList.add(mapper.map(customerEntity, Customer.class)) );
+        return customerList;
+    }
+
+
 }
