@@ -1,8 +1,10 @@
 package edu.icet.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.lang.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor

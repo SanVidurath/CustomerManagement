@@ -10,6 +10,5 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity,Integer
     List<CustomerEntity> findByName(String name);
     List<CustomerEntity> findByAddress(String address);
     List<CustomerEntity> searchBySalary(Double salary);
-    //if name is not present as an attribute then simpleJpaRepository won't let to run this
 
 }

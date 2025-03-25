@@ -2,9 +2,7 @@ package edu.icet.controller;
 
 import edu.icet.dto.Customer;
 import edu.icet.service.custom.CustomerService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin
 public class CustomerController {
-//http://localhost:8080/customer/add
-
 
     final CustomerService service;
 
