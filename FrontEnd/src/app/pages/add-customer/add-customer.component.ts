@@ -9,6 +9,7 @@ import { Customer } from '../../models/Customer';
 })
 export class AddCustomerComponent {
   submitForm() {
+    const id=null;
     const name = (
       document.getElementById('name') as HTMLInputElement
     ).value.trim();
@@ -24,12 +25,8 @@ export class AddCustomerComponent {
       return;
     }
 
-    if (salary) {
-      alert('Please enter a proper number');
-      return;
-    }
 
-    const customerData: Customer = { name, address, salary };
+    let customerData: Customer = { id, name, address, salary };
     // const customerData: Customer = new Customer( name, address, salary );
 
     fetch('http://localhost:8080/customer/add', {

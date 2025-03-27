@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';  
 import { Component, OnInit } from '@angular/core';
 
 @Component({
