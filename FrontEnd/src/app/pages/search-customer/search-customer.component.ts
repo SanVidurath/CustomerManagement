@@ -2,7 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Customer } from '../../models/Customer';
-import { CustomerService } from '../../customer.service';
+import { CustomerService } from '../../services/CustomerService';
 
 @Component({
   selector: 'app-search-customer',
@@ -19,26 +19,34 @@ export class SearchCustomerComponent {
 
   searchCustomer() {
     if (!this.searchValue) return;
-  
+
     const observer = {
-      next: (data: Customer | Customer[]) => this.customers = Array.isArray(data) ? data : [data],
-      error: (error: any) => console.error('Error:', error)
+      next: (data: Customer | Customer[]) =>
+        (this.customers = Array.isArray(data) ? data : [data]),
+      error: (error: any) => console.error('Error:', error),
     };
-  
+    
     switch (this.searchType) {
       case 'id':
-        this.customerService.searchCustomerById(this.searchValue).subscribe(observer);
+        this.customerService
+          .searchCustomerById(this.searchValue)
+          .subscribe(res=>{this.customers=res});
         break;
       case 'name':
-        this.customerService.searchCustomerByName(this.searchValue).subscribe(observer);
+        this.customerService
+          .searchCustomerByName(this.searchValue)
+          .subscribe(observer);
         break;
       case 'address':
-        this.customerService.searchCustomerByAddress(this.searchValue).subscribe(observer);
+        this.customerService
+          .searchCustomerByAddress(this.searchValue)
+          .subscribe(observer);
         break;
       case 'salary':
-        this.customerService.searchCustomerBySalary(+this.searchValue).subscribe(observer);
+        this.customerService
+          .searchCustomerBySalary(+this.searchValue)
+          .subscribe(observer);
         break;
     }
   }
-  
 }
