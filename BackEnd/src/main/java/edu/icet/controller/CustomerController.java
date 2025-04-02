@@ -2,11 +2,17 @@ package edu.icet.controller;
 
 import edu.icet.dto.Customer;
 import edu.icet.service.custom.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/customer")
@@ -17,9 +23,9 @@ public class CustomerController {
     final CustomerService service;
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addCustomer(@RequestBody Customer customer){
+    public ResponseEntity<?> addCustomer(@Valid @RequestBody Customer customer){
         service.add(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }
 
     @GetMapping("/get-all")
@@ -56,5 +62,19 @@ public class CustomerController {
     @GetMapping("/search-by-salary/{salary}")
     public List<Customer> searchCustomerBySalary(@PathVariable Double salary){
         return service.searchCustomerBySalary(salary);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex){
+
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error)->{
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }

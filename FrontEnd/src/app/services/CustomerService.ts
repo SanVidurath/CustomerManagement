@@ -16,8 +16,8 @@ export class CustomerService {
     return this.http.get<Customer[]>('http://localhost:8080/customer/get-all');
   }
 
-  searchCustomerById(id: number): Observable<Customer[]> {
-    return this.http.get<Customer[]>(`${this.baseUrl}/search-by-id/${id}`);
+  searchCustomerById(id: number): Observable<Customer> {
+    return this.http.get<Customer>(`${this.baseUrl}/search-by-id/${id}`);
   }
 
   searchCustomerByName(name: string): Observable<Customer[]> {

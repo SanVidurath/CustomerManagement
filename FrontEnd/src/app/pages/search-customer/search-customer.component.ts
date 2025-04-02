@@ -20,32 +20,39 @@ export class SearchCustomerComponent {
   searchCustomer() {
     if (!this.searchValue) return;
 
-    const observer = {
-      next: (data: Customer | Customer[]) =>
-        (this.customers = Array.isArray(data) ? data : [data]),
-      error: (error: any) => console.error('Error:', error),
-    };
-    
     switch (this.searchType) {
       case 'id':
         this.customerService
           .searchCustomerById(this.searchValue)
-          .subscribe(res=>{this.customers=res});
+          .subscribe((res) => {
+            res!==null?this.customers.push(res):this.customers=[];
+            ;
+          });
+
         break;
       case 'name':
         this.customerService
           .searchCustomerByName(this.searchValue)
-          .subscribe(observer);
+          .subscribe((res) => {
+            this.customers = res;
+          });
+
         break;
       case 'address':
         this.customerService
           .searchCustomerByAddress(this.searchValue)
-          .subscribe(observer);
+          .subscribe((res) => {
+            this.customers = res;
+          });
+
         break;
       case 'salary':
         this.customerService
-          .searchCustomerBySalary(+this.searchValue)
-          .subscribe(observer);
+          .searchCustomerBySalary(this.searchValue)
+          .subscribe((res) => {
+            this.customers = res;
+          });
+
         break;
     }
   }
