@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping(value = "/customer", produces = "application/json")
 @RequiredArgsConstructor
 @CrossOrigin
 public class CustomerController {
@@ -23,9 +23,11 @@ public class CustomerController {
     final CustomerService service;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCustomer(@Valid @RequestBody Customer customer){
+    public ResponseEntity <Map<String, String>> addCustomer(@Valid @RequestBody Customer customer){
         service.add(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+        Map<String, String> response = new HashMap<>();
+        response.put("message","Customer created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/get-all")
@@ -64,17 +66,18 @@ public class CustomerController {
         return service.searchCustomerBySalary(salary);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex){
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
 
         Map<String, String> errors = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach((error)->{
+        ex.getBindingResult().getAllErrors().forEach(error->{
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return errors;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .header("Content-Type", "application/json")
+                .body(errors);
     }
 }

@@ -12,8 +12,14 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
+  addCustomer(data: Customer) {
+    return this.http.post(`${this.baseUrl}/add`, data, {
+      responseType: 'text',
+    });
+  }
+
   loadCustomerData(): Observable<Customer[]> {
-    return this.http.get<Customer[]>('http://localhost:8080/customer/get-all');
+    return this.http.get<Customer[]>(`${this.baseUrl}/get-all`);
   }
 
   searchCustomerById(id: number): Observable<Customer> {
@@ -25,10 +31,14 @@ export class CustomerService {
   }
 
   searchCustomerByAddress(address: string): Observable<Customer[]> {
-    return this.http.get<Customer[]>(`${this.baseUrl}/search-by-address/${address}`);
+    return this.http.get<Customer[]>(
+      `${this.baseUrl}/search-by-address/${address}`
+    );
   }
 
   searchCustomerBySalary(salary: number): Observable<Customer[]> {
-    return this.http.get<Customer[]>(`${this.baseUrl}/search-by-salary/${salary}`);
+    return this.http.get<Customer[]>(
+      `${this.baseUrl}/search-by-salary/${salary}`
+    );
   }
 }
