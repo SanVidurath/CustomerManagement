@@ -41,4 +41,10 @@ export class CustomerService {
       `${this.baseUrl}/search-by-salary/${salary}`
     );
   }
+
+  updateCustomer(customer: Customer) {
+    return this.http.put(`${this.baseUrl}/update-customer`, customer, {
+      responseType: 'text',
+    });
+  }
 }

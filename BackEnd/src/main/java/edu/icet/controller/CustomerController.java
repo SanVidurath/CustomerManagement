@@ -42,8 +42,11 @@ public class CustomerController {
     }
 
     @PutMapping("/update-customer")
-    public void updateCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Map<String, String>> updateCustomer(@Valid @RequestBody Customer customer){
         service.updateCustomer(customer);
+        Map<String, String> response = new HashMap<>();
+        response.put("message","Customer updated successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/search-by-id/{id}")
