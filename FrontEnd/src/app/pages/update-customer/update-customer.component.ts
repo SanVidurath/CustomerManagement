@@ -30,7 +30,6 @@ export class UpdateCustomerComponent implements OnInit {
       .subscribe((res) => (this.customer = res));
   }
 
-  loadValues() {}
 
   submitForm(event: Event) {
     event.preventDefault(); // Prevent the default form submission behavior

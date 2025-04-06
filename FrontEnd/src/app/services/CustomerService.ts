@@ -47,4 +47,8 @@ export class CustomerService {
       responseType: 'text',
     });
   }
+
+  deletCustomer(id: number) {
+    return this.http.delete(`${this.baseUrl}/delete/${id}`);
+  }
 }
