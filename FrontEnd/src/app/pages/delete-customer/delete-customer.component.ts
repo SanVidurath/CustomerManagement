@@ -53,7 +53,9 @@ export class DeleteCustomerComponent {
       if (result.isConfirmed) {
         this.customerService
           .deletCustomer(id)
-          .subscribe((res) => console.log(res));
+          .subscribe((res) =>
+            Swal.fire('Success', `${JSON.parse(res).message}`, 'success')
+          );
       }
     });
   }

@@ -37,8 +37,11 @@ public class CustomerController {
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteCustomer(@PathVariable  Integer id){
+    public ResponseEntity<Map<String, String>> deleteCustomer(@PathVariable  Integer id){
         service.delete(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Customer deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/update-customer")
